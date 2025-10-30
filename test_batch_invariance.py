@@ -1,6 +1,11 @@
 import torch
 from batch_invariant_ops import set_batch_invariant_mode
-device_type = getattr(torch.accelerator.current_accelerator(), "type", "cpu")
+
+# Detect device type (compatible with PyTorch 2.0+)
+if torch.cuda.is_available():
+    device_type = "cuda"
+else:
+    device_type = "cpu"
 torch.set_default_device(device_type)
 
 # Just to get the logging out of the way haha

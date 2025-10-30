@@ -125,7 +125,12 @@ def get_compute_units():
     for the available accelerator. Assigns the value to NUM_SMS.
     """
     NUM_SMS = None
-    device_type = getattr(torch.accelerator.current_accelerator(), "type", "cpu")
+
+    # Detect device type (compatible with PyTorch 2.0+)
+    if torch.cuda.is_available():
+        device_type = "cuda"
+    else:
+        device_type = "cpu"
 
     # Use match/case for device-specific logic (Python 3.10+)
     match device_type:
@@ -499,7 +504,13 @@ def enable_batch_invariant_mode():
     global _batch_invariant_MODE, _batch_invariant_LIB
     if _batch_invariant_MODE:
         return
-    dispatch_key = getattr(torch.accelerator.current_accelerator(), "type", "cpu").upper()
+
+    # Detect device type (compatible with PyTorch 2.0+)
+    if torch.cuda.is_available():
+        dispatch_key = "CUDA"
+    else:
+        dispatch_key = "CPU"
+
     _batch_invariant_MODE = True
     _batch_invariant_LIB = torch.library.Library("aten", "IMPL")
     _batch_invariant_LIB.impl("aten::mm", mm_batch_invariant, dispatch_key)
