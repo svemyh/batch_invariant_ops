@@ -2,6 +2,22 @@
 
 A companion library release to https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/. This library contains some batch-invariant kernels as well as an example of achieving deterministic vLLM inference.
 
+## 🚀 Quick Setup for GPU (A100 80GB)
+
+**New to this repo? Start here:**
+
+- **[QUICKSTART.md](QUICKSTART.md)** - Get running in 3 minutes with automated setup
+- **[GPU_SETUP_GUIDE.md](GPU_SETUP_GUIDE.md)** - Complete setup guide with troubleshooting
+- **[verify_setup.py](verify_setup.py)** - Verify your installation is working correctly
+
+```bash
+# Automated setup (recommended)
+./setup_gpu.sh
+
+# Or verify existing installation
+python verify_setup.py
+```
+
 ## Overview
 
 This library primarily leverages torch.Library to sub out existing PyTorch kernels with "batch-invariant" ones. This allows many existing PyTorch models to use the batch-invariant ops with low overhead and non-intrusive code changes.
